@@ -108,8 +108,4 @@ Clone the repository.
 Open the project folder in a terminal.
 
 Run the demo using:
-```
-bash
-Copy code
 python main.py
-```
