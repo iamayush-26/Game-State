@@ -10,7 +10,7 @@ This project implements a simple 2D game state system:
 ## How to run
 ```bash
 python main.py
-
+```
 ## Features
 - Player movement with boundary checks
 - Item pickup and inventory management
