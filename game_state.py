@@ -37,6 +37,9 @@ class GameState:
 
 
 def create_initial_state() -> GameState:
+    # Rationale:
+    # Centralized initial state creation keeps testing consistent and makes reset easy.
+    # Adding new items/objects later is simple because all defaults are in one place.
     state = GameState()
 
     # Items in the world
@@ -51,10 +54,17 @@ def create_initial_state() -> GameState:
 
 
 def reset_game_state() -> GameState:
+    # Rationale:
+    # Reset reuses create_initial_state() to avoid duplicate initialization logic.
+    # This guarantees reset state is always identical to the initial game setup.
     return create_initial_state()
 
 
 def move_player(state: GameState, new_x: int, new_y: int) -> bool:
+    # Rationale:
+    # Boundary validation is done before updating the player's coordinates to prevent invalid state.
+    # This keeps the player always inside the playable world and avoids broken game logic later.
+
     # boundary check
     if new_x < 0 or new_x >= state.width or new_y < 0 or new_y >= state.height:
         print("Invalid move: out of bounds")
@@ -67,6 +77,10 @@ def move_player(state: GameState, new_x: int, new_y: int) -> bool:
 
 
 def pickup_item(state: GameState, item_id: str) -> bool:
+    # Rationale:
+    # Items are stored in a dictionary (hash-map) for O(1) lookup using item_id.
+    # Pickup requires the player to be on the same tile as the item to keep the rule simple and deterministic.
+
     # item exists
     if item_id not in state.items:
         print("Invalid item id")
@@ -92,6 +106,10 @@ def pickup_item(state: GameState, item_id: str) -> bool:
 
 
 def use_item(state: GameState, item_id: str) -> bool:
+    # Rationale:
+    # We only allow using items that exist in the player's inventory to prevent invalid actions.
+    # Item effects are handled by item name/type, making it easy to extend with new items later.
+
     # check inventory
     if item_id not in state.player.inventory:
         print("You don't have this item")
@@ -125,6 +143,10 @@ def use_item(state: GameState, item_id: str) -> bool:
 
 
 def interact_with_environment(state: GameState, object_id: str) -> bool:
+    # Rationale:
+    # Environment objects are stored by ID for fast interaction lookup.
+    # Interactions are implemented as a toggle (open/close or on/off) because it's the simplest state transition model.
+
     if object_id not in state.env_objects:
         print("Environment object not found")
         return False
@@ -156,6 +178,10 @@ def interact_with_environment(state: GameState, object_id: str) -> bool:
 
 
 def save_game(state: GameState, filepath: str) -> None:
+    # Rationale:
+    # JSON is chosen because it is human-readable, easy to debug, and easy to serialize in Python.
+    # Converting the game state into dictionaries ensures it can be stored and restored reliably.
+
     data = {
         "width": state.width,
         "height": state.height,
@@ -192,6 +218,10 @@ def save_game(state: GameState, filepath: str) -> None:
 
 
 def load_game(filepath: str) -> GameState:
+    # Rationale:
+    # Loading reconstructs the GameState from JSON so gameplay can resume exactly from the saved state.
+    # Keeping persistence separate from gameplay logic improves modularity and maintainability.
+
     with open(filepath, "r") as f:
         data = json.load(f)
 
