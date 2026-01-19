@@ -1,0 +1,38 @@
+{
+    "width": 10,
+    "height": 10,
+    "player": {
+        "x": 2,
+        "y": 2,
+        "health": 70,
+        "inventory": []
+    },
+    "items": {
+        "p1": {
+            "id": "p1",
+            "name": "Potion",
+            "x": 2,
+            "y": 2,
+            "picked": true
+        },
+        "k1": {
+            "id": "k1",
+            "name": "Key",
+            "x": 5,
+            "y": 5,
+            "picked": false
+        }
+    },
+    "env_objects": {
+        "d1": {
+            "id": "d1",
+            "type": "door",
+            "state": "open"
+        },
+        "s1": {
+            "id": "s1",
+            "type": "switch",
+            "state": "off"
+        }
+    }
+}
