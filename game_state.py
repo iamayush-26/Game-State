@@ -4,7 +4,7 @@ from typing import List, Dict
 
 
 @dataclass
-class Player:
+class Player: 
     x: int = 0
     y: int = 0
     health: int = 100
